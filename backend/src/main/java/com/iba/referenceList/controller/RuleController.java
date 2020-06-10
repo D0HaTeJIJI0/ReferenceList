@@ -5,6 +5,9 @@ import com.iba.referenceList.dto.RuleDto;
 import com.iba.referenceList.service.RuleService;
 import com.iba.referenceList.service.RuleService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -30,8 +33,10 @@ public class RuleController {
     }
 
     @GetMapping(GET_ALL_RULES)
-    public ResponseEntity<?> getAllRules() {
-        List<RuleDto> allRules = ruleService.getAllRules();
+    public ResponseEntity<?> getAllRules(
+            @PageableDefault(sort = { "name" }, size = 1, direction = Sort.Direction.ASC) Pageable pageable
+    ) {
+        List<RuleDto> allRules = ruleService.getAllRules(pageable);
 
         return ResponseEntity.ok()
                 .body(allRules);

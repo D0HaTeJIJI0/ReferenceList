@@ -3,6 +3,10 @@ package com.iba.referenceList.controller;
 import com.iba.referenceList.dto.EmployeeDto;
 import com.iba.referenceList.service.EmployeeService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -39,8 +43,11 @@ public class EmployeeController {
     }
 
     @GetMapping(GET_ALL_EMPLOYEES)
-    public ResponseEntity<?> getAllEmployees() {
-        List<EmployeeDto> allEmployees = employeeService.getAllEmployees();
+    public ResponseEntity<?> getAllEmployees(
+            @PageableDefault(sort = { "name" }, size = 3, direction = Sort.Direction.ASC)Pageable pageable
+            ) {
+
+        List<EmployeeDto> allEmployees = employeeService.getAllEmployees(pageable);
 
         return ResponseEntity.ok()
                 .body(allEmployees);

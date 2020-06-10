@@ -1,9 +1,9 @@
 package com.iba.referenceList.service;
 
 import com.iba.referenceList.dto.EmployeeDto;
+import org.springframework.data.domain.Pageable;
 
 import java.util.List;
-import java.util.UUID;
 
 public interface EmployeeService {
 
@@ -12,5 +12,7 @@ public interface EmployeeService {
     List<EmployeeDto> getAllSubordinatesOfEmployee(EmployeeDto employeeDto);
 
     List<EmployeeDto> getAllEmployees();
+
+    List<EmployeeDto> getAllEmployees(Pageable pageable);
 
 }
