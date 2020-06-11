@@ -1,13 +1,14 @@
 <template>
   <v-data-table
     :headers="headers"
-    :items="desserts"
-    sort-by="calories"
+    :items="employees"
+    :server-items-length="totalEmployees"
+    :loading="loading"
     class="elevation-1"
   >
     <template v-slot:top>
       <v-toolbar flat color="white">
-        <v-toolbar-title>My CRUD</v-toolbar-title>
+        <v-toolbar-title>Employee Managment</v-toolbar-title>
         <v-divider
           class="mx-4"
           inset
@@ -22,7 +23,7 @@
               class="mb-2"
               v-bind="attrs"
               v-on="on"
-            >New Item</v-btn>
+            >New Employee</v-btn>
           </template>
           <v-card>
             <v-card-title>
@@ -76,26 +77,30 @@
       </v-icon>
     </template>
     <template v-slot:no-data>
-      <v-btn color="primary" @click="initialize">Reset</v-btn>
+      <v-btn color="primary" @click="">Reset</v-btn>
     </template>
   </v-data-table>
 </template>
 
 <script>
+import { mapGetters } from 'vuex'
+import { mapActions } from 'vuex'
+
   export default {
     data: () => ({
+      loading: true,
       dialog: false,
       headers: [
         {
-          text: 'Dessert (100g serving)',
+          text: 'Id',
           align: 'start',
           sortable: false,
-          value: 'name',
+          value: 'id',
         },
-        { text: 'Calories', value: 'calories' },
-        { text: 'Fat (g)', value: 'fat' },
-        { text: 'Carbs (g)', value: 'carbs' },
-        { text: 'Protein (g)', value: 'protein' },
+        { text: 'Name', value: 'name' },
+        { text: 'Age', value: 'age' },
+        { text: 'Married', value: 'married' },
+        { text: 'bossId', value: 'bossId' },
         { text: 'Actions', value: 'actions', sortable: false },
       ],
       desserts: [],
@@ -114,7 +119,20 @@
         carbs: 0,
         protein: 0,
       },
+      totalEmployees: 0,
+      employees: []
     }),
+
+    // computed: {
+    //   ...mapGetters(['employeePage'])
+    // },
+
+    async mounted() {
+      const data = await this.$store.dispatch('fetchEmployeesAction');
+      this.employees = data.employeeDtos
+      this.totalEmployees = this.employees ? this.employees.length : 0;
+      this.loading = false
+    },
 
     computed: {
       formTitle () {
@@ -128,86 +146,7 @@
       },
     },
 
-    created () {
-      this.initialize()
-    },
-
     methods: {
-      initialize () {
-        this.desserts = [
-          {
-            name: 'Frozen Yogurt',
-            calories: 159,
-            fat: 6.0,
-            carbs: 24,
-            protein: 4.0,
-          },
-          {
-            name: 'Ice cream sandwich',
-            calories: 237,
-            fat: 9.0,
-            carbs: 37,
-            protein: 4.3,
-          },
-          {
-            name: 'Eclair',
-            calories: 262,
-            fat: 16.0,
-            carbs: 23,
-            protein: 6.0,
-          },
-          {
-            name: 'Cupcake',
-            calories: 305,
-            fat: 3.7,
-            carbs: 67,
-            protein: 4.3,
-          },
-          {
-            name: 'Gingerbread',
-            calories: 356,
-            fat: 16.0,
-            carbs: 49,
-            protein: 3.9,
-          },
-          {
-            name: 'Jelly bean',
-            calories: 375,
-            fat: 0.0,
-            carbs: 94,
-            protein: 0.0,
-          },
-          {
-            name: 'Lollipop',
-            calories: 392,
-            fat: 0.2,
-            carbs: 98,
-            protein: 0,
-          },
-          {
-            name: 'Honeycomb',
-            calories: 408,
-            fat: 3.2,
-            carbs: 87,
-            protein: 6.5,
-          },
-          {
-            name: 'Donut',
-            calories: 452,
-            fat: 25.0,
-            carbs: 51,
-            protein: 4.9,
-          },
-          {
-            name: 'KitKat',
-            calories: 518,
-            fat: 26.0,
-            carbs: 65,
-            protein: 7,
-          },
-        ]
-      },
-
       editItem (item) {
         this.editedIndex = this.desserts.indexOf(item)
         this.editedItem = Object.assign({}, item)
