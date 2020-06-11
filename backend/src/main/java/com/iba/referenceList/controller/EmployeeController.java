@@ -1,6 +1,7 @@
 package com.iba.referenceList.controller;
 
 import com.iba.referenceList.dto.EmployeeDto;
+import com.iba.referenceList.dto.EmployeePageDto;
 import com.iba.referenceList.service.EmployeeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
@@ -8,8 +9,10 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 import java.util.UUID;
 
@@ -17,6 +20,7 @@ import static com.iba.referenceList.route.WebRouteConstants.*;
 
 @RestController
 @RequestMapping(API)
+@CrossOrigin
 public class EmployeeController {
 
     @Autowired
@@ -24,7 +28,7 @@ public class EmployeeController {
 
     @DeleteMapping(DELETE_EMPLOYEES)
     public ResponseEntity<?> deleteEmployees(
-            @RequestBody List<EmployeeDto> employeeDtos) {
+            @Validated(EmployeeDto.Delete.class) @RequestBody List<@Valid EmployeeDto> employeeDtos) {
 
         employeeService.deleteEmployees(employeeDtos);
         List<EmployeeDto> allEmployees = employeeService.getAllEmployees();
@@ -42,15 +46,16 @@ public class EmployeeController {
                 .body(allSubordinatesOfEmployee);
     }
 
+
     @GetMapping(GET_ALL_EMPLOYEES)
     public ResponseEntity<?> getAllEmployees(
             @PageableDefault(sort = { "name" }, size = 3, direction = Sort.Direction.ASC)Pageable pageable
             ) {
 
-        List<EmployeeDto> allEmployees = employeeService.getAllEmployees(pageable);
+        EmployeePageDto employeePageDto = employeeService.getAllEmployees(pageable);
 
         return ResponseEntity.ok()
-                .body(allEmployees);
+                .body(employeePageDto);
     }
 
 }

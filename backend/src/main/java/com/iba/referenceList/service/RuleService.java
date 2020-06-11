@@ -1,5 +1,6 @@
 package com.iba.referenceList.service;
 
+import com.iba.referenceList.dto.PageRuleDto;
 import com.iba.referenceList.dto.RuleDto;
 import org.springframework.data.domain.Pageable;
 
@@ -11,5 +12,5 @@ public interface RuleService {
 
     List<RuleDto> getAllRules();
 
-    List<RuleDto> getAllRules(Pageable pageable);
+    PageRuleDto getAllRules(Pageable pageable);
 }

@@ -1,5 +1,6 @@
 package com.iba.referenceList.controller;
 
+import com.iba.referenceList.dto.PageRuleDto;
 import com.iba.referenceList.dto.RuleDto;
 import com.iba.referenceList.dto.RuleDto;
 import com.iba.referenceList.service.RuleService;
@@ -17,6 +18,7 @@ import static com.iba.referenceList.route.WebRouteConstants.*;
 
 @RestController
 @RequestMapping(API)
+@CrossOrigin
 public class RuleController {
 
     @Autowired
@@ -36,7 +38,7 @@ public class RuleController {
     public ResponseEntity<?> getAllRules(
             @PageableDefault(sort = { "name" }, size = 1, direction = Sort.Direction.ASC) Pageable pageable
     ) {
-        List<RuleDto> allRules = ruleService.getAllRules(pageable);
+        PageRuleDto allRules = ruleService.getAllRules(pageable);
 
         return ResponseEntity.ok()
                 .body(allRules);

@@ -3,6 +3,7 @@ package com.iba.referenceList.service.impl;
 import com.iba.referenceList.converter.BaseConverter;
 import com.iba.referenceList.domain.Employee;
 import com.iba.referenceList.dto.EmployeeDto;
+import com.iba.referenceList.dto.EmployeePageDto;
 import com.iba.referenceList.repository.EmployeeRepository;
 import com.iba.referenceList.service.EmployeeService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -43,9 +44,12 @@ public class EmployeeServiceImpl implements EmployeeService {
     }
 
     @Override
-    public List<EmployeeDto> getAllEmployees(Pageable pageable) {
-        Page<Employee> all = repository.findAll(pageable);
-        List<Employee> content = all.getContent();
-        return converter.toDto(content);
+    public EmployeePageDto getAllEmployees(Pageable pageable) {
+        Page<Employee> page = repository.findAll(pageable);
+        List<Employee> content = page.getContent();
+        List<EmployeeDto> employeeDtos = converter.toDto(content);
+        return new EmployeePageDto(employeeDtos,
+                page.getNumber(),
+                page.getTotalPages());
     }
 }

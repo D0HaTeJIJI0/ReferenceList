@@ -4,6 +4,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import javax.validation.constraints.NotNull;
 import java.util.List;
 import java.util.UUID;
 
@@ -12,6 +13,9 @@ import java.util.UUID;
 @NoArgsConstructor
 public class EmployeeDto {
 
+    public interface Delete {}
+
+    @NotNull(groups = Delete.class)
     private UUID id;
 
     private String name;
@@ -25,8 +29,6 @@ public class EmployeeDto {
     private List<UUID> subordinateIds;
 
     private List<Long> referenceNoteIds;
-
-    private Boolean selected = false;
 
     public EmployeeDto(UUID id) {
         this.id = id;

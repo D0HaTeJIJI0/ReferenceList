@@ -2,11 +2,13 @@ package com.iba.referenceList.service.impl;
 
 import com.iba.referenceList.converter.BaseConverter;
 import com.iba.referenceList.domain.Rule;
+import com.iba.referenceList.dto.PageRuleDto;
 import com.iba.referenceList.dto.RuleDto;
 import com.iba.referenceList.repository.RuleRepository;
 import com.iba.referenceList.service.RuleService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
@@ -35,8 +37,12 @@ public class RuleServiceImpl implements RuleService {
     }
 
     @Override
-    public List<RuleDto> getAllRules(Pageable pageable) {
-        List<Rule> all = repository.findAll(pageable).getContent();
-        return converter.toDto(all);
+    public PageRuleDto getAllRules(Pageable pageable) {
+        Page<Rule> page = repository.findAll(pageable);
+        List<Rule> all = page.getContent();
+
+        return new PageRuleDto(converter.toDto(all),
+                page.getNumber(),
+                page.getTotalPages());
     }
 }

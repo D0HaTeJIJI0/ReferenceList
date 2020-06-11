@@ -17,6 +17,7 @@ import static com.iba.referenceList.route.WebRouteConstants.*;
 
 @RestController
 @RequestMapping(API)
+@CrossOrigin
 public class ReferenceNoteController {
 
     @Autowired
