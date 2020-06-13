@@ -84,7 +84,11 @@ function buildPagination() {
     buttons += `<button class="page-backward btn btn-sm btn-info">&#139;</button>`;
   }
   for (let page = minPage; page <= maxPage; page++) {
-    buttons += `<button value=${page} class="page btn btn-sm btn-info">${page}</button>`;
+    if (page == state.page) {
+      buttons += `<button value=${page} class="page btn btn-sm btn-info active">${page}</button>`;  
+    } else {
+      buttons += `<button value=${page} class="page btn btn-sm btn-info">${page}</button>`;
+    }
   }
   if (state.page < state.totalPageNumber) {
     buttons += `<button class="page-forward btn btn-sm btn-info">&#155;</button>`;
@@ -100,8 +104,6 @@ function buildPagination() {
     backward.onclick = () => {
       state.page--;
       fetchEmployees();
-      buildTable();
-      buildPagination();
     }
   }
 
@@ -110,18 +112,19 @@ function buildPagination() {
     forward.onclick = () => {
       state.page++;
       fetchEmployees();
-      buildTable();
-      buildPagination();
     }
   }
 
   let pages = document.getElementsByClassName("page");
   for (let page of pages) {
     page.onclick = () => {
-      state.page = page.value;
+      state.page = Number(page.value);
       fetchEmployees();
-      buildTable();
-      buildPagination();
     }
   }
+}
+
+function changePageSize(pageSize) {
+  state.pageSize = pageSize.value;
+  fetchEmployees();
 }
