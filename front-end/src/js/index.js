@@ -2,10 +2,11 @@ var state = {
   'employees': [],
   'page': 1,
   'pageSize': 3,
-  'totalPageNumber': 0
+  'totalPageNumber': 0,
+  'windowSize': 3
 }
 
-fetchEmployees(state.page, state.pageSize);
+fetchEmployees();
 
 let ths = document.getElementsByTagName('th');
 
@@ -69,12 +70,50 @@ function buildTable() {
 function buildPagination() {
   let wrapper = document.getElementById('pagination-wrapper');
   let buttons = "";
+  let minPage = Math.max(state.page - Math.floor((state.windowSize - 1) / 2), 1);
+  let maxPage = minPage + state.windowSize - 1;
+  if (maxPage > state.totalPageNumber) {
+    maxPage = state.totalPageNumber;
+    minPage = Math.max(maxPage - state.windowSize + 1, 1)
+  }
 
-  for (let page = 1; page <= state.totalPageNumber; page++) {
+  if (minPage > 1) {
+    buttons += `<button value=1 class="page btn btn-sm btn-info">&#171; First</button>`;
+  }
+  if (state.page > 1) {
+    buttons += `<button class="page-backward btn btn-sm btn-info">&#139;</button>`;
+  }
+  for (let page = minPage; page <= maxPage; page++) {
     buttons += `<button value=${page} class="page btn btn-sm btn-info">${page}</button>`;
+  }
+  if (state.page < state.totalPageNumber) {
+    buttons += `<button class="page-forward btn btn-sm btn-info">&#155;</button>`;
+  }
+  if (maxPage < state.totalPageNumber) {
+    buttons += `<button value=${state.totalPageNumber} class="page btn btn-sm btn-info">&#187; Last</button>`;
   }
 
   wrapper.innerHTML = buttons;
+
+  let backwards = document.getElementsByClassName("page-backward");
+  for (let backward of backwards) {
+    backward.onclick = () => {
+      state.page--;
+      fetchEmployees();
+      buildTable();
+      buildPagination();
+    }
+  }
+
+  let forwards = document.getElementsByClassName("page-forward");
+  for (let forward of forwards) {
+    forward.onclick = () => {
+      state.page++;
+      fetchEmployees();
+      buildTable();
+      buildPagination();
+    }
+  }
 
   let pages = document.getElementsByClassName("page");
   for (let page of pages) {
@@ -82,6 +121,7 @@ function buildPagination() {
       state.page = page.value;
       fetchEmployees();
       buildTable();
+      buildPagination();
     }
   }
 }
