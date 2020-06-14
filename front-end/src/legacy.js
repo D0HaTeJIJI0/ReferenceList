@@ -5,6 +5,8 @@ var state = {
   'totalPageNumber': 0,
   'windowSize': 3
 }
+var modal = document.getElementById("myModal");
+var span = document.getElementsByClassName("close")[0];
 
 fetchEmployees();
 
@@ -36,6 +38,16 @@ for (let th of ths) {
   }
 }
 
+span.onclick = function() {
+  modal.style.display = "none";
+}
+
+window.onclick = function(event) {
+  if (event.target == modal) {
+    modal.style.display = "none";
+  }
+}
+
 async function fetchEmployees() {
   const response = await fetch(`http://localhost:8081/referenceList/employee/all?page=${state.page-1}&size=${state.pageSize}`);
   if (response.ok) {
@@ -55,7 +67,7 @@ function buildTable() {
   let employeeRows = "";
 
   state.employees.forEach(employee => {
-    employeeRows += "<tr>";
+    employeeRows += `<tr class="employeeRow">`;
     employeeRows += "<td>" + employee.id + "</td>";
     employeeRows += "<td>" + employee.name + "</td>";
     employeeRows += "<td>" + employee.age + "</td>";
@@ -65,6 +77,13 @@ function buildTable() {
   });
   
   document.getElementById("employees").innerHTML = employeeRows;
+
+  employeeRows = document.getElementsByClassName('employeeRow');
+  for (let employeeRow of employeeRows) {
+    employeeRow.onclick = function() {
+      modal.style.display = "block";
+    }
+  }
 }
 
 function buildPagination() {

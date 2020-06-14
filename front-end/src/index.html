@@ -1,12 +1,13 @@
 <html>
   <head>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <link rel="stylesheet" href="assets/css/style.css">
   </head>
 
   <body>
 
     <div class="container" >
-      <table class="table table-stripped">
+      <table class="table table-hover">
         <thead>
           <tr>
             <th data-column="id" data-order="desc">id &#9660</th>
@@ -20,6 +21,16 @@
           
           
         </tbody>
+        <!-- The Modal -->
+        <div id="myModal" class="modal">
+    
+          <!-- Modal content -->
+          <div class="modal-content">
+            <span class="close">&times;</span>
+            <p>Some text in the Modal..</p>
+          </div>
+    
+        </div>
         
       </table>
       <div>
@@ -28,7 +39,7 @@
         </div>
         <div>
           <label>Page size</label>
-          <select id="page-size" onchange="changePageSize(this)">
+          <select id="page-size" onchange="state.updatePageSize(this.value)">
             <option>3</option>
             <option>5</option>
             <option>10</option>
@@ -36,7 +47,13 @@
         </div>
       </div>
     </div>
+
    
-    <script src='js/index.js'></script>
+    <script src='api/dto/PageEmployeeDto.js'></script>
+    <script src='api/EmployeeApi.js'></script>
+    <script src='state/TableBuilder.js'></script>
+    <script src='state/PaginationBuilder.js'></script>
+    <script src='state/State.js'></script>
+    <script src='index.js'></script>
   </body>
 </html>
