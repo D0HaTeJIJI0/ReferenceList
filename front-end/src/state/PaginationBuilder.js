@@ -4,7 +4,7 @@ class PaginationBuilder {
     let wrapper = document.getElementById('pagination-wrapper');
     let buttons = "";
     let pageEmployee = state.pageEmployee;
-    let minPage = Math.max(pageEmployee.page - Math.floor((state.windowSize - 1) / 2), 1);
+    let minPage = Math.max(pageEmployee.currentPage - Math.floor((state.windowSize - 1) / 2), 1);
     let maxPage = minPage + state.windowSize - 1;
     if (maxPage > pageEmployee.totalPageNumber) {
       maxPage = pageEmployee.totalPageNumber;
@@ -14,17 +14,17 @@ class PaginationBuilder {
     if (minPage > 1) {
       buttons += `<button value=1 class="page btn btn-sm btn-info">&#171; First</button>`;
     }
-    if (pageEmployee.page > 1) {
+    if (pageEmployee.currentPage > 1) {
       buttons += `<button class="page-backward btn btn-sm btn-info">&#139;</button>`;
     }
     for (let page = minPage; page <= maxPage; page++) {
-      if (page == pageEmployee.page) {
+      if (page == pageEmployee.currentPage) {
         buttons += `<button value=${page} class="page btn btn-sm btn-info active">${page}</button>`;  
       } else {
         buttons += `<button value=${page} class="page btn btn-sm btn-info">${page}</button>`;
       }
     }
-    if (pageEmployee.page < pageEmployee.totalPageNumber) {
+    if (pageEmployee.currentPage < pageEmployee.totalPageNumber) {
       buttons += `<button class="page-forward btn btn-sm btn-info">&#155;</button>`;
     }
     if (maxPage < pageEmployee.totalPageNumber) {

@@ -6,13 +6,36 @@ class EmployeeApi {
       const pageEmployeeJson = await response.json();
   
       if (pageEmployeeJson) {
-        return new PageEmployeeDto(pageEmployeeJson.employeeDtos,
-            pageEmployeeJson.currentPage + 1,
-            pageSize,
-            pageEmployeeJson.totalPageNumber
-          );
+        pageEmployeeJson.currentPage++;
+        pageEmployeeJson.currentPageSize = pageSize;
+        return pageEmployeeJson;
       }
     }
+  }
+
+  static async fetchEmployeeInfo(id) {
+    const response = await fetch(`http://localhost:8081/referenceList/employee/${id}`);
+    if (response.ok) {
+      const employeeInfoJson = await response.json();
+  
+      if (employeeInfoJson) {
+        return employeeInfoJson
+      }
+    }
+  }
+
+  static async deleteEmployees(ids) {
+    await fetch(`http://localhost:8081/referenceList/employee/delete`, {
+      method: 'DELETE',
+      headers: {
+        'Content-Type': 'application/json;charset=utf-8'
+      },
+      body: JSON.stringify(ids)
+    });
+  }
+
+  static async addEmployee(employee) {
+    await fetch(`http://localhost:8081/referenceList/employee/`)
   }
 
 }

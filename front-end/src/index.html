@@ -7,49 +7,82 @@
   <body>
 
     <div class="container" >
-      <table class="table table-hover">
-        <thead>
-          <tr>
-            <th data-column="id" data-order="desc">id &#9660</th>
-            <th data-column="name" data-order="desc">name &#9660</th>
-            <th data-column="age" data-order="desc">age &#9660</th>
-            <th data-column="married" data-order="desc">married &#9660</th>
-            <th data-column="bossId" data-order="desc">bossId &#9660</th>
-          </tr>
-        </thead>
-        <tbody id="employees">
-          
-          
-        </tbody>
-        <!-- The Modal -->
-        <div id="myModal" class="modal">
-    
-          <!-- Modal content -->
-          <div class="modal-content">
-            <span class="close">&times;</span>
-            <p>Some text in the Modal..</p>
-          </div>
-    
-        </div>
+      <div class="row">
+        <div class="col-md-6 col-md-offset-3">
+          <div class="btn btn-danger" onclick="state.deleteSelectedEmployees()">Delete Selected</div>
+          <div class="btn btn-info" onclick="showAddEmployeeModal()">New Employee</div><hr/>
+          <!-- The Modal -->
+          <div id="addEmployeeModal" class="modal">
         
-      </table>
-      <div>
-        <div id="pagination-wrapper">
-          
+              <!-- Modal content -->
+              <div class="modal-content">
+                <span class="close">&times;</span>
+                <div id="newEmployee">
+                  <div>
+                    <label>name: </label>
+                    <input></input>
+                  </div><br/>
+                  <div>
+                    <label>age: </label>
+                    <input></input>
+                  </div><br/>
+                  <div>
+                    <label>married: </label>
+                    <select>
+                      <option>yes</option>
+                      <option>no</option>
+                    </select>
+                  </div><br/><br/>
+                  <div class="btn btn-info" onclick="state.addEmployee()">Add Employee</div>
+                </div>
+              </div>
+          </div>
+
+          <table class="table table-hover table-bordered">
+            <thead>
+              <tr>
+                <th><input type="checkbox" onchange="checkAll()"/></th>
+                <th class="data-header" data-column="name" data-order="desc">name &#9660</th>
+                <th class="data-header" data-column="age" data-order="desc">age &#9660</th>
+                <th class="data-header" data-column="married" data-order="desc">married &#9660</th>
+                <th>actions</th>
+              </tr>
+            </thead>
+            <tbody id="employees">
+              
+              
+            </tbody>
+            <!-- The Modal -->
+            <div id="employeeInfoModal" class="modal">
+        
+              <!-- Modal content -->
+              <div class="modal-content">
+                <span class="close">&times;</span>
+                <div id="employeeInfo">
+                </div>
+            </div>
+            
+          </table>
         </div>
-        <div>
-          <label>Page size</label>
-          <select id="page-size" onchange="state.updatePageSize(this.value)">
-            <option>3</option>
-            <option>5</option>
-            <option>10</option>
-          </select>
+      </div> 
+      <div class="row">
+          <div class="col-md-6 col-md-offset-3">
+            <div id="pagination-wrapper">
+            </div>
+            <div>
+              <label>Page size</label>
+              <select id="page-size" onchange="state.updatePageSize(this.value)">
+                <option>3</option>
+                <option>5</option>
+                <option>10</option>
+              </select>
+            </div>
+          </div>
         </div>
       </div>
     </div>
 
    
-    <script src='api/dto/PageEmployeeDto.js'></script>
     <script src='api/EmployeeApi.js'></script>
     <script src='state/TableBuilder.js'></script>
     <script src='state/PaginationBuilder.js'></script>
