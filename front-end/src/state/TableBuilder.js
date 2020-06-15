@@ -36,7 +36,7 @@ class TableBuilder {
   
     for (let i = 0; i < employees.length; i++) {
       employeeRows += `<tr id=${i} class="employeeRow">`;
-      employeeRows += `<td><input type=checkbox class="checkitem" id="${employees[i].id}" /></td>`;
+      employeeRows += `<td><input type="checkbox" class="checkitem" onchange="checkItem()" id="${employees[i].id}" /></td>`;
       employeeRows += "<td>" + employees[i].name + "</td>";
       employeeRows += "<td>" + employees[i].age + "</td>";
       employeeRows += "<td>" + employees[i].married + "</td>";

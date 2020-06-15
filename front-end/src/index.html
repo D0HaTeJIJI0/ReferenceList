@@ -17,7 +17,7 @@
               <!-- Modal content -->
               <div class="modal-content">
                 <span class="close">&times;</span>
-                <form id="newEmployee" onsubmit="state.addEmployee(this)">
+                <form id="newEmployee" onsubmit="addEmployee(this)">
                   <div>
                     <label>name: </label>
                     <input></input>
@@ -41,7 +41,7 @@
           <table class="table table-hover table-bordered">
             <thead>
               <tr>
-                <th><input type="checkbox" onchange="checkAll()"/></th>
+                <th><input type="checkbox" onchange="checkAll(this)" id="checkall" /></th>
                 <th class="data-header" data-column="name" data-order="desc">name &#9660</th>
                 <th class="data-header" data-column="age" data-order="desc">age &#9660</th>
                 <th class="data-header" data-column="married" data-order="desc">married &#9660</th>

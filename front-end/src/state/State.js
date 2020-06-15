@@ -4,8 +4,14 @@ class State {
     this.windowSize = windowSize;
   }
 
-  async updateEmployees(page, pageSize) {
-    this.pageEmployee = await EmployeeApi.fetchEmployees(page, pageSize);
+  async updateEmployees() {
+    if (this.pageEmployee) {
+      this.pageEmployee = await EmployeeApi.fetchEmployees(this.pageEmployee.currentPage,
+        this.pageEmployee.pageSize);
+    }
+    else {
+      this.pageEmployee = await EmployeeApi.fetchEmployees();
+    }
 
     TableBuilder.initializeTableHeader(this);
     TableBuilder.buildTable(this.pageEmployee.employeeDtos);
@@ -13,19 +19,24 @@ class State {
   }
 
   updatePageSize(pageSize) {
-    this.updateEmployees(this.pageEmployee.currentPage, pageSize);
+    this.pageEmployee.currentPage = 1;
+    this.pageEmployee.pageSize = pageSize;
+    this.updateEmployees();
   }
 
   goToPage(page) {
-    this.updateEmployees(page, this.pageEmployee.currentPageSize);
+    this.pageEmployee.currentPage = page;
+    this.updateEmployees();
   }
 
   goToNextPage() {
-    this.updateEmployees(this.pageEmployee.currentPage + 1, this.pageEmployee.currentPageSize);
+    this.pageEmployee.currentPage++;
+    this.updateEmployees();
   }
 
   goToPreviousPage() {
-    this.updateEmployees(this.pageEmployee.currentPage - 1, this.pageEmployee.currentPageSize);
+    this.pageEmployee.currentPage--;
+    this.updateEmployees();
   }
 
   async deleteSelectedEmployees() {
@@ -38,7 +49,8 @@ class State {
     }
     await EmployeeApi.deleteEmployees(ids);
 
-    this.updateEmployees(this.pageEmployee.page, this.pageEmployee.pageSize);
+    this.pageEmployee.currentPage = 1;
+    await this.updateEmployees();
   }
 
   async addEmployee(form) {
@@ -48,7 +60,10 @@ class State {
       "age": elements[1].value,
       "married": elements[2].value == "yes"
     };
-   await EmployeeApi.addEmployee(employee);
-   await this.updateEmployees(this.pageEmployee.page, this.pageEmployee.pageSize);
+    await EmployeeApi.addEmployee(employee);
+
+    this.pageEmployee.currentPage = 1;
+    console.log(this.pageEmployee)
+    await this.updateEmployees();
   }
 }

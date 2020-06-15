@@ -1,6 +1,6 @@
 class EmployeeApi {
 
-  static async fetchEmployees(page, pageSize) {
+  static async fetchEmployees(page = 1, pageSize = 3) {
     const response = await fetch(`http://localhost:8081/referenceList/employee/all?page=${page - 1}&size=${pageSize}`);
     if (response.ok) {
       const pageEmployeeJson = await response.json();
