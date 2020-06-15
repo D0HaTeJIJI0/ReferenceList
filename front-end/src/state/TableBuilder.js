@@ -39,7 +39,7 @@ class TableBuilder {
       employeeRows += `<td><input type="checkbox" class="checkitem" onchange="checkItem()" id="${employees[i].id}" /></td>`;
       employeeRows += "<td>" + employees[i].name + "</td>";
       employeeRows += "<td>" + employees[i].age + "</td>";
-      employeeRows += "<td>" + employees[i].married + "</td>";
+      employeeRows += "<td>" + (employees[i].married ? "yes" : "no") + "</td>";
       employeeRows += "</tr>";
     }
     
