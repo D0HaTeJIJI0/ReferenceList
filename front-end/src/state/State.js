@@ -41,7 +41,14 @@ class State {
     this.updateEmployees(this.pageEmployee.page, this.pageEmployee.pageSize);
   }
 
-  addEmployee() {
-   
+  async addEmployee(form) {
+    let elements = form.elements;
+    let employee = {
+      "name": elements[0].value,
+      "age": elements[1].value,
+      "married": elements[2].value == "yes"
+    };
+   await EmployeeApi.addEmployee(employee);
+   await this.updateEmployees(this.pageEmployee.page, this.pageEmployee.pageSize);
   }
 }

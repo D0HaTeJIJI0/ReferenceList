@@ -28,6 +28,7 @@ public class WebRouteConstants {
     //O
     //P
     public static final String POST_REFERENCE_NOTE = "/referenceNote/create";
+    public static final String POST_NEW_EMPLOYEE = "/employee/create";
     //Q
     //R
     //S

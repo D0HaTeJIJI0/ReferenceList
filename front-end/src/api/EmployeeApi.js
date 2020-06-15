@@ -35,7 +35,13 @@ class EmployeeApi {
   }
 
   static async addEmployee(employee) {
-    await fetch(`http://localhost:8081/referenceList/employee/`)
+    await fetch(`http://localhost:8081/referenceList/employee/create`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json;charset=utf-8'
+      },
+      body: JSON.stringify(employee)
+    })
   }
 
 }

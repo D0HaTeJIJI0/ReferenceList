@@ -52,4 +52,10 @@ public class EmployeeServiceImpl implements EmployeeService {
                 page.getNumber(),
                 page.getTotalPages());
     }
+
+    @Override
+    public void createEmployee(EmployeeDto employeeDto) {
+        Employee employee = converter.toEntity(employeeDto);
+        repository.save(employee);
+    }
 }

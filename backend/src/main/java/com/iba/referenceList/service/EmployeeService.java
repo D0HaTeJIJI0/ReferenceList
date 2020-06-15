@@ -16,4 +16,6 @@ public interface EmployeeService {
 
     EmployeePageDto getAllEmployees(Pageable pageable);
 
+    void createEmployee(EmployeeDto employeeDto);
+
 }
